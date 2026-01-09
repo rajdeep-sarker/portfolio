@@ -16,7 +16,8 @@
     <link rel="icon" href="/assets/profile.jpg" type="image/jpeg">
     <link rel="apple-touch-icon" href="/assets/profile.jpg">
     <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
     <link rel="canonical" href="https://rajdeep.engineer/" />
 
     <!-- Open Graph / Social Preview -->
@@ -116,7 +117,7 @@
             <h2 class="section-title">About Me</h2>
             <div class="about-content">
                 <div class="about-image">
-                    <img src="assets/profile.jpg" alt="Rajdeep Sarker profile photo" width="300" height="300" loading="lazy">
+                    <img src="assets/profile.jpg" alt="Rajdeep Sarker profile photo" width="300" height="300" loading="lazy" decoding="async" fetchpriority="low">
                 </div>
                 <div class="about-text">
                     <h3>Hi, I'm Rajdeep Sarker</h3>
@@ -311,7 +312,7 @@
             <div class="projects-grid">
                 <div class="project-card">
                     <div class="project-image">
-                        <img src="assets/project1.jpg" alt="Screenshot of a machine learning classification project" width="600" height="400" loading="lazy" onerror="this.onerror=null;this.src='assets/college%20gate.jpg';">
+                        <img src="assets/project1.jpg" alt="Screenshot of a machine learning classification project" width="600" height="400" loading="lazy" decoding="async" fetchpriority="low" onerror="this.onerror=null;this.src='assets/college%20gate.jpg';">
                     </div>
                     <div class="project-content">
                         <h3>Machine Learning Model</h3>
@@ -326,7 +327,7 @@
 
                 <div class="project-card">
                     <div class="project-image">
-                        <img src="assets/project2.jpg" alt="Screenshot of a personal portfolio website project" width="600" height="400" loading="lazy" onerror="this.onerror=null;this.src='assets/college%20gate.jpg';">
+                        <img src="assets/project2.jpg" alt="Screenshot of a personal portfolio website project" width="600" height="400" loading="lazy" decoding="async" fetchpriority="low" onerror="this.onerror=null;this.src='assets/college%20gate.jpg';">
                     </div>
                     <div class="project-content">
                         <h3>Personal Portfolio Website</h3>
@@ -341,7 +342,7 @@
 
                 <div class="project-card">
                     <div class="project-image">
-                        <img src="assets/project3.jpg" alt="Screenshot of a Python data analysis and visualization project" width="600" height="400" loading="lazy" onerror="this.onerror=null;this.src='assets/college%20gate.jpg';">
+                        <img src="assets/project3.jpg" alt="Screenshot of a Python data analysis and visualization project" width="600" height="400" loading="lazy" decoding="async" fetchpriority="low" onerror="this.onerror=null;this.src='assets/college%20gate.jpg';">
                     </div>
                     <div class="project-content">
                         <h3>Data Analysis Project</h3>
@@ -471,7 +472,6 @@
         </div>
     </footer>
 
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-    <script src="js/script.js"></script>
+    <script src="js/script.js" defer></script>
 </body>
 </html>

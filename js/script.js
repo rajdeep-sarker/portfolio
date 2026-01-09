@@ -1,28 +1,23 @@
+const navbar = document.querySelector('.navbar');
+
 // Mobile Menu Toggle
 const hamburger = document.querySelector('.hamburger');
 const navLinks = document.querySelector('.nav-links');
+const navLinkAnchors = document.querySelectorAll('.nav-links a');
 
-hamburger.addEventListener('click', () => {
-    navLinks.classList.toggle('active');
-    hamburger.classList.toggle('active');
-});
+if (hamburger && navLinks) {
+    hamburger.addEventListener('click', () => {
+        navLinks.classList.toggle('active');
+        hamburger.classList.toggle('active');
+    });
+}
 
 // Close mobile menu when clicking on a link
-document.querySelectorAll('.nav-links a').forEach(link => {
+navLinkAnchors.forEach(link => {
     link.addEventListener('click', () => {
-        navLinks.classList.remove('active');
-        hamburger.classList.remove('active');
+        navLinks?.classList.remove('active');
+        hamburger?.classList.remove('active');
     });
-});
-
-// Navbar scroll effect
-window.addEventListener('scroll', () => {
-    const navbar = document.querySelector('.navbar');
-    if (window.scrollY > 50) {
-        navbar.classList.add('scrolled');
-    } else {
-        navbar.classList.remove('scrolled');
-    }
 });
 
 // Skill bar animation
@@ -67,27 +62,50 @@ if (educationSection) {
     timelineObserver.observe(educationSection);
 }
 
-// Smooth scroll for navigation links
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            const offsetTop = target.offsetTop - 70;
-            window.scrollTo({
-                top: offsetTop,
-                behavior: 'smooth'
-            });
-        }
-    });
-});
+// EmailJS (lazy-loaded so it doesn't slow initial load)
+const EMAILJS_PUBLIC_KEY = 'g4UUK3V4vY1rij9YI';
+let emailJsLoadPromise;
 
-// EmailJS initialization
-(function() {
-    emailjs.init({
-        publicKey: "g4UUK3V4vY1rij9YI",
-    });
-})();
+async function loadEmailJs() {
+    if (window.emailjs?.sendForm) {
+        return window.emailjs;
+    }
+
+    if (!emailJsLoadPromise) {
+        emailJsLoadPromise = new Promise((resolve, reject) => {
+            const script = document.createElement('script');
+            script.src = 'https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js';
+            script.async = true;
+            script.onload = () => resolve(window.emailjs);
+            script.onerror = () => reject(new Error('Failed to load EmailJS'));
+            document.head.appendChild(script);
+        }).then((emailjs) => {
+            if (emailjs && !emailjs.__portfolioInited) {
+                emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+                emailjs.__portfolioInited = true;
+            }
+            return emailjs;
+        });
+    }
+
+    return emailJsLoadPromise;
+}
+
+// Preload EmailJS shortly before user reaches contact section
+const contactSection = document.querySelector('#contact');
+if (contactSection && 'IntersectionObserver' in window) {
+    const emailPrefetchObserver = new IntersectionObserver(
+        (entries) => {
+            if (entries.some(e => e.isIntersecting)) {
+                loadEmailJs().catch(() => {});
+                emailPrefetchObserver.disconnect();
+            }
+        },
+        { rootMargin: '600px 0px' }
+    );
+
+    emailPrefetchObserver.observe(contactSection);
+}
 
 // Google Form fallback URL (Replace with your Google Form URL)
 const GOOGLE_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSejGRYr-oZ5uWTuyIzxag2rLOjFp_LKZqHPilPxR_c2CTqrDQ/formResponse";
@@ -106,6 +124,8 @@ if (contactForm) {
         
         // Try EmailJS first
         try {
+            const emailjs = await loadEmailJs();
+
             const response = await emailjs.sendForm(
                 'service_kuidmrj',
                 'template_tbin4ai',
@@ -252,52 +272,8 @@ fadeInElements.forEach(element => {
     fadeInObserver.observe(element);
 });
 
-// Active navigation link highlighting
-const sections = document.querySelectorAll('section');
-const navLinksAll = document.querySelectorAll('.nav-links a');
-
-window.addEventListener('scroll', () => {
-    let current = '';
-    
-    sections.forEach(section => {
-        const sectionTop = section.offsetTop;
-        const sectionHeight = section.clientHeight;
-        if (scrollY >= sectionTop - 100) {
-            current = section.getAttribute('id');
-        }
-    });
-
-    navLinksAll.forEach(link => {
-        link.classList.remove('active');
-        if (link.getAttribute('href').slice(1) === current) {
-            link.classList.add('active');
-        }
-    });
-});
-
-// Typing effect for hero section (optional enhancement)
-const heroTitle = document.querySelector('.hero-title .highlight');
-if (heroTitle) {
-    const text = heroTitle.textContent;
-    heroTitle.textContent = '';
-    let i = 0;
-    
-    function typeWriter() {
-        if (i < text.length) {
-            heroTitle.textContent += text.charAt(i);
-            i++;
-            setTimeout(typeWriter, 100);
-        }
-    }
-    
-    // Start typing effect after page loads
-    window.addEventListener('load', () => {
-        setTimeout(typeWriter, 500);
-    });
-}
-
-// Scroll to top button (optional)
-const createScrollTopButton = () => {
+// Scroll to top button
+function createScrollTopButton() {
     const button = document.createElement('button');
     button.innerHTML = '<i class="fas fa-arrow-up"></i>';
     button.classList.add('scroll-top-btn');
@@ -323,14 +299,6 @@ const createScrollTopButton = () => {
     
     document.body.appendChild(button);
     
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 300) {
-            button.style.display = 'flex';
-        } else {
-            button.style.display = 'none';
-        }
-    });
-    
     button.addEventListener('click', () => {
         window.scrollTo({
             top: 0,
@@ -345,16 +313,72 @@ const createScrollTopButton = () => {
     button.addEventListener('mouseleave', () => {
         button.style.transform = 'translateY(0)';
     });
-};
+    return button;
+}
 
-// Initialize scroll to top button
-createScrollTopButton();
+const scrollTopButton = createScrollTopButton();
 
-// Add loading animation
+// Consolidated scroll handler (rAF-throttled + passive)
+const sections = Array.from(document.querySelectorAll('section'));
+const navLinksAll = Array.from(document.querySelectorAll('.nav-links a'));
+
+let sectionTops = [];
+let activeSectionId = '';
+
+function updateSectionTops() {
+    sectionTops = sections
+        .map((section) => ({ id: section.getAttribute('id'), top: section.offsetTop }))
+        .filter((s) => s.id);
+}
+
+function handleScroll() {
+    const y = window.scrollY || 0;
+
+    if (navbar) {
+        navbar.classList.toggle('scrolled', y > 50);
+    }
+
+    if (scrollTopButton) {
+        scrollTopButton.style.display = y > 300 ? 'flex' : 'none';
+    }
+
+    let current = '';
+    for (let i = sectionTops.length - 1; i >= 0; i--) {
+        if (y + 110 >= sectionTops[i].top) {
+            current = sectionTops[i].id;
+            break;
+        }
+    }
+
+    if (current && current !== activeSectionId) {
+        activeSectionId = current;
+        navLinksAll.forEach((link) => {
+            const href = link.getAttribute('href') || '';
+            link.classList.toggle('active', href.startsWith('#') && href.slice(1) === activeSectionId);
+        });
+    }
+}
+
+let scrollTicking = false;
+function requestScrollTick() {
+    if (scrollTicking) return;
+    scrollTicking = true;
+    requestAnimationFrame(() => {
+        scrollTicking = false;
+        handleScroll();
+    });
+}
+
+updateSectionTops();
+handleScroll();
+
+window.addEventListener('scroll', requestScrollTick, { passive: true });
+window.addEventListener('resize', () => {
+    updateSectionTops();
+    handleScroll();
+}, { passive: true });
+
 window.addEventListener('load', () => {
-    document.body.classList.add('loaded');
-});
-
-// Console message for developers
-console.log('%c👋 Hello! Thanks for checking out my portfolio!', 'color: #2563eb; font-size: 16px; font-weight: bold;');
-console.log('%cBuilt with HTML, CSS, and JavaScript', 'color: #64748b; font-size: 12px;');
+    updateSectionTops();
+    handleScroll();
+}, { once: true });
