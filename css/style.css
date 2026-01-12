@@ -6,17 +6,23 @@
 }
 
 :root {
-    --primary-color: #6366f1;
-    --secondary-color: #8b5cf6;
+    /* Requested palette */
+    --primary-color: #0f172a; /* dark navy */
+    --secondary-color: #38bdf8; /* soft sky blue (accent) */
+    --accent-color: #38bdf8;
+    --light-bg: #f8fafc; /* almost white */
     --dark-bg: #0f172a;
-    --light-bg: #f8fafc;
-    --text-dark: #1e293b;
-    --text-light: #64748b;
+    --text-dark: #0f172a;
+    --text-light: #64748b; /* secondary text */
+
+    /* RGB helpers for rgba() usage */
+    --primary-rgb: 15, 23, 42;
+    --accent-rgb: 56, 189, 248;
     --white: #ffffff;
     --success: #10b981;
     --warning: #f59e0b;
     --danger: #ef4444;
-    --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --gradient: linear-gradient(135deg, var(--accent-color) 0%, var(--primary-color) 100%);
 }
 
 html {
@@ -66,7 +72,7 @@ body {
 .logo {
     font-size: 1.5rem;
     font-weight: bold;
-    color: #667eea;
+    color: var(--accent-color);
     text-shadow: none;
     text-decoration: none;
     display: inline-block;
@@ -83,7 +89,11 @@ body {
 .logo:hover {
     transform: scale(1.05) translateY(-2px);
     text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.5);
-    color: #fbbf24;
+    color: var(--primary-color);
+}
+
+.navbar.scrolled .logo:hover {
+    color: var(--accent-color);
 }
 
 @keyframes fadeInLeft {
@@ -153,11 +163,11 @@ body {
 }
 
 .nav-links a:hover {
-    color: #667eea;
+    color: var(--accent-color);
 }
 
 .navbar.scrolled .nav-links a:hover {
-    color: #fbbf24;
+    color: var(--accent-color);
 }
 
 .hamburger {
@@ -200,7 +210,7 @@ body {
     right: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+    background: linear-gradient(135deg, rgba(var(--accent-rgb), 0.08) 0%, rgba(var(--primary-rgb), 0.04) 100%);
     z-index: 0;
 }
 
@@ -218,7 +228,7 @@ body {
 }
 
 .highlight {
-    background: linear-gradient(135deg, #667eea, #764ba2, #f093fb, #667eea);
+    background: linear-gradient(135deg, var(--accent-color), var(--primary-color), var(--accent-color));
     background-size: 300% 300%;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -269,24 +279,24 @@ body {
 }
 
 .btn-primary {
-    background: linear-gradient(135deg, #667eea, #764ba2);
-    color: var(--white);
+    background: var(--accent-color);
+    color: var(--primary-color);
     border: none;
 }
 
 .btn-primary:hover {
     transform: translateY(-3px);
-    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+    box-shadow: 0 10px 30px rgba(var(--accent-rgb), 0.35);
 }
 
 .btn-secondary {
     background: transparent;
-    color: #667eea;
-    border-color: #667eea;
+    color: var(--accent-color);
+    border-color: var(--accent-color);
 }
 
 .btn-secondary:hover {
-    background: linear-gradient(135deg, #667eea, #764ba2);
+    background: var(--primary-color);
     color: var(--white);
     border-color: transparent;
 }
@@ -305,7 +315,7 @@ body {
 
 .scroll-down i {
     font-size: 1.5rem;
-    color: #667eea;
+    color: var(--accent-color);
 }
 
 /* Section Styles */
@@ -415,7 +425,7 @@ section {
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(135deg, rgba(102, 126, 234, 0.12) 0%, rgba(118, 75, 162, 0.12) 100%);
+    background: linear-gradient(135deg, rgba(var(--accent-rgb), 0.14) 0%, rgba(var(--primary-rgb), 0.10) 100%);
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -426,7 +436,7 @@ section {
 /* Avoid downloading large background image on mobile */
 @media (min-width: 769px) {
     .education::before {
-        background-image: linear-gradient(135deg, rgba(102, 126, 234, 0.12) 0%, rgba(118, 75, 162, 0.12) 100%), url('../assets/college gate.jpg');
+        background-image: linear-gradient(135deg, rgba(var(--accent-rgb), 0.14) 0%, rgba(var(--primary-rgb), 0.10) 100%), url('../assets/college gate.jpg');
     }
 }
 
@@ -685,7 +695,7 @@ section {
     background: var(--white);
     border-radius: 10px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    border: 1px solid rgba(99, 102, 241, 0.12);
+    border: 1px solid rgba(var(--accent-rgb), 0.16);
     position: relative;
     overflow: hidden;
     cursor: pointer;
@@ -697,8 +707,8 @@ section {
     position: absolute;
     inset: 0;
     background:
-        radial-gradient(600px circle at 50% 0%, rgba(99, 102, 241, 0.16), transparent 55%),
-        radial-gradient(500px circle at 100% 100%, rgba(139, 92, 246, 0.10), transparent 55%);
+        radial-gradient(600px circle at 50% 0%, rgba(var(--accent-rgb), 0.18), transparent 55%),
+        radial-gradient(500px circle at 100% 100%, rgba(var(--primary-rgb), 0.10), transparent 55%);
     opacity: 0;
     transition: opacity 0.25s ease;
     pointer-events: none;
@@ -707,14 +717,14 @@ section {
 .achievement-card:hover,
 .achievement-card:focus-within {
     transform: translateY(-10px);
-    box-shadow: 0 20px 40px rgba(99, 102, 241, 0.18), 0 10px 20px rgba(0, 0, 0, 0.08);
-    border-color: rgba(99, 102, 241, 0.35);
+    box-shadow: 0 20px 40px rgba(var(--accent-rgb), 0.22), 0 10px 20px rgba(0, 0, 0, 0.08);
+    border-color: rgba(var(--accent-rgb), 0.45);
 }
 
 .achievement-card.is-active {
     transform: translateY(-10px);
-    box-shadow: 0 20px 40px rgba(99, 102, 241, 0.18), 0 10px 20px rgba(0, 0, 0, 0.08);
-    border-color: rgba(99, 102, 241, 0.35);
+    box-shadow: 0 20px 40px rgba(var(--accent-rgb), 0.22), 0 10px 20px rgba(0, 0, 0, 0.08);
+    border-color: rgba(var(--accent-rgb), 0.45);
 }
 
 .achievement-card:hover::before,
@@ -727,7 +737,7 @@ section {
 }
 
 .achievement-card:focus-visible {
-    outline: 3px solid rgba(99, 102, 241, 0.35);
+    outline: 3px solid rgba(var(--accent-rgb), 0.45);
     outline-offset: 4px;
 }
 
@@ -781,13 +791,13 @@ section {
 .achievement-card:hover .achievement-icon,
 .achievement-card:focus-within .achievement-icon {
     transform: translateY(-2px) scale(1.04);
-    box-shadow: 0 12px 28px rgba(99, 102, 241, 0.25);
+    box-shadow: 0 12px 28px rgba(var(--accent-rgb), 0.28);
     filter: saturate(1.05);
 }
 
 .achievement-card.is-active .achievement-icon {
     transform: translateY(-2px) scale(1.04);
-    box-shadow: 0 12px 28px rgba(99, 102, 241, 0.25);
+    box-shadow: 0 12px 28px rgba(var(--accent-rgb), 0.28);
     filter: saturate(1.05);
 }
 
@@ -802,12 +812,12 @@ section {
 
 .achievement-card:hover .achievement-year,
 .achievement-card:focus-within .achievement-year {
-    background: rgba(99, 102, 241, 0.12);
+    background: rgba(var(--accent-rgb), 0.14);
     color: var(--text-dark);
 }
 
 .achievement-card.is-active .achievement-year {
-    background: rgba(99, 102, 241, 0.12);
+    background: rgba(var(--accent-rgb), 0.14);
     color: var(--text-dark);
 }
 
@@ -999,7 +1009,7 @@ section {
 
     .nav-links a:hover,
     .navbar.scrolled .nav-links a:hover {
-        color: #667eea;
+        color: var(--accent-color);
     }
 
     .nav-links.active {

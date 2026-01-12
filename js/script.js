@@ -262,6 +262,8 @@ if (achievementCards.length) {
         achievementCards.forEach(card => card.classList.remove('is-active'));
     };
 
+    const hasActive = () => Array.from(achievementCards).some(card => card.classList.contains('is-active'));
+
     achievementCards.forEach((card) => {
         card.addEventListener('click', () => {
             const willActivate = !card.classList.contains('is-active');
@@ -276,6 +278,22 @@ if (achievementCards.length) {
             clearActive();
             if (willActivate) card.classList.add('is-active');
         });
+    });
+
+    // Click anywhere outside achievements cards to clear active highlight
+    document.addEventListener('click', (e) => {
+        const target = e.target;
+        if (!(target instanceof Element)) return;
+        if (target.closest('.achievement-card')) return;
+        if (!hasActive()) return;
+        clearActive();
+    });
+
+    // Escape clears active state (keyboard-friendly)
+    document.addEventListener('keydown', (e) => {
+        if (e.key !== 'Escape') return;
+        if (!hasActive()) return;
+        clearActive();
     });
 }
 
@@ -310,8 +328,8 @@ function createScrollTopButton() {
         width: 50px;
         height: 50px;
         border-radius: 50%;
-        background: linear-gradient(135deg, #2563eb, #7c3aed);
-        color: white;
+        background: var(--accent-color);
+        color: var(--primary-color);
         border: none;
         cursor: pointer;
         display: none;
