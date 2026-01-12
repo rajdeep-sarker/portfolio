@@ -255,6 +255,30 @@ function showNotification(message, type, isHtml = false) {
     }, 5000);
 }
 
+// Achievements: click/keyboard toggle highlight
+const achievementCards = document.querySelectorAll('.achievement-card');
+if (achievementCards.length) {
+    const clearActive = () => {
+        achievementCards.forEach(card => card.classList.remove('is-active'));
+    };
+
+    achievementCards.forEach((card) => {
+        card.addEventListener('click', () => {
+            const willActivate = !card.classList.contains('is-active');
+            clearActive();
+            if (willActivate) card.classList.add('is-active');
+        });
+
+        card.addEventListener('keydown', (e) => {
+            if (e.key !== 'Enter' && e.key !== ' ') return;
+            e.preventDefault();
+            const willActivate = !card.classList.contains('is-active');
+            clearActive();
+            if (willActivate) card.classList.add('is-active');
+        });
+    });
+}
+
 // Scroll animations for sections
 const fadeInElements = document.querySelectorAll('.about-content, .timeline-item, .project-card, .achievement-card');
 
