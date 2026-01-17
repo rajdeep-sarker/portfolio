@@ -170,6 +170,28 @@ body {
     color: var(--accent-color);
 }
 
+.cv-download-link {
+    background: var(--accent-color) !important;
+    color: var(--primary-color) !important;
+    padding: 8px 16px !important;
+    border-radius: 50px !important;
+    transition: all 0.3s ease !important;
+}
+
+.cv-download-link::after {
+    display: none !important;
+}
+
+.cv-download-link:hover {
+    background: #0ea5e9 !important;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(var(--accent-rgb), 0.4);
+}
+
+.cv-download-link i {
+    margin-right: 5px;
+}
+
 .hamburger {
     display: none;
     flex-direction: column;
@@ -301,6 +323,22 @@ body {
     border-color: transparent;
 }
 
+.btn-download {
+    background: var(--accent-color);
+    color: var(--primary-color);
+    border: none;
+}
+
+.btn-download:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(var(--accent-rgb), 0.35);
+    background: #0ea5e9;
+}
+
+.btn i {
+    margin-right: 8px;
+}
+
 .scroll-down {
     position: absolute;
     bottom: 30px;
@@ -409,6 +447,10 @@ section {
     outline: 2px solid var(--primary-color);
     outline-offset: 2px;
     border-radius: 4px;
+}
+
+.about-actions {
+    margin-top: 30px;
 }
 
 /* Education Section */
