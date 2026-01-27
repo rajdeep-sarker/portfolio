@@ -11,7 +11,7 @@ Your contact form is now integrated with EmailJS! Follow these steps to complete
 1. Go to **Email Services** in dashboard
 2. Click **Add New Service**
 3. Choose your email provider (Gmail recommended)
-4. Connect your email (sarkerrajdeep8@gmail.com)
+4. Connect your email (info@rajdeep.engineer)
 5. Copy the **Service ID**
 
 ## Step 3: Create Email Template
@@ -73,7 +73,7 @@ emailjs.sendForm(
 1. Open your portfolio in browser
 2. Fill out the contact form
 3. Click "Send Message"
-4. Check your email (sarkerrajdeep8@gmail.com)
+4. Check your email (info@rajdeep.engineer)
 
 ## Troubleshooting
 - Make sure all IDs are correct
