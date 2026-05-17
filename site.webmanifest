@@ -3,6 +3,11 @@
   "short_name": "Rajdeep",
   "icons": [
     {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    },
+    {
       "src": "favicon-48x48.png",
       "sizes": "48x48",
       "type": "image/png"
@@ -23,7 +28,7 @@
       "type": "image/png"
     }
   ],
-  "theme_color": "#0F172A",
-  "background_color": "#0F172A",
+  "theme_color": "#07111F",
+  "background_color": "#07111F",
   "display": "standalone"
 }
