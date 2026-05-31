@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Maintenance Mode Gate (loads config.js and redirects if enabled) -->
+    <script src="config.js"></script>
+    <script>
+        if (window.MAINTENANCE_MODE === true) {
+            window.location.replace("maintenance.html");
+        }
+    </script>
+
     <!-- New Relic Browser Monitoring (must be early in <head>) -->
     <script type="text/javascript">
     ;window.NREUM||(NREUM={});NREUM.init={distributed_tracing:{enabled:true},performance:{capture_measures:true},browser_consent_mode:{enabled:false},privacy:{cookies_enabled:true},ajax:{deny_list:["bam.nr-data.net"]}};
@@ -23,12 +31,28 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rajdeep Sarker | HSC Science Student & Aspiring AI/ML Engineer</title>
-    <meta name="description" content="Portfolio of Rajdeep Sarker — HSC Science student (Class XI) from Mymensingh, Bangladesh, aspiring AI/ML Engineer. Explore education, skills, projects, achievements, and contact info.">
-    <meta name="keywords" content="Rajdeep Sarker, rajdeep.codes, portfolio, HSC Science student, Class XI, AI, ML, machine learning, Python, Bangladesh, Mymensingh">
+    <title>Rajdeep Sarker | Student & Aspiring AI/ML Engineer</title>
+    <meta name="description" content="Portfolio of Rajdeep Sarker — Student from Mymensingh, Bangladesh, aspiring AI/ML Engineer. Specializing in Python development, Machine Learning, and Automation.">
+    <meta name="keywords" content="Rajdeep Sarker, rajdeep.codes, portfolio, Student, AI, ML, machine learning, Python, Bangladesh, Mymensingh, Automation">
     <meta name="author" content="Rajdeep Sarker">
     <meta name="robots" content="index, follow">
     <meta name="theme-color" content="#07111F">
+
+    <!-- Inline script to prevent dark theme flash (FOUC) -->
+    <script>
+        const savedTheme = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Manrope:wght@200..800&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
 
     <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
@@ -40,14 +64,14 @@
     <link rel="icon" href="favicon-16x16.png" type="image/png" sizes="16x16">
     <link rel="apple-touch-icon" href="apple-touch-icon.png" sizes="180x180">
     <link rel="manifest" href="site.webmanifest">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style.css?v=1.7">
     <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
     <link rel="canonical" href="https://rajdeep.codes/" />
 
     <!-- Open Graph / Social Preview -->
-    <meta property="og:title" content="Rajdeep Sarker | HSC Science Student & Aspiring AI/ML Engineer">
-    <meta property="og:description" content="Portfolio of Rajdeep Sarker — education, skills, projects, achievements, and contact.">
+    <meta property="og:title" content="Rajdeep Sarker | Student & Aspiring AI/ML Engineer">
+    <meta property="og:description" content="Portfolio of Rajdeep Sarker — Student from Mymensingh, Bangladesh, aspiring AI/ML Engineer. Specializing in Python development, Machine Learning, and Automation.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://rajdeep.codes/">
     <meta property="og:image" content="https://rajdeep.codes/assets/profile2.jpg.jpeg">
@@ -57,8 +81,8 @@
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Rajdeep Sarker | HSC Science Student & Aspiring AI/ML Engineer">
-    <meta name="twitter:description" content="Portfolio of Rajdeep Sarker — education, skills, projects, achievements, and contact.">
+    <meta name="twitter:title" content="Rajdeep Sarker | Student & Aspiring AI/ML Engineer">
+    <meta name="twitter:description" content="Portfolio of Rajdeep Sarker — Student from Mymensingh, Bangladesh, aspiring AI/ML Engineer. Specializing in Python development, Machine Learning, and Automation.">
     <meta name="twitter:image" content="https://rajdeep.codes/assets/profile2.jpg.jpeg">
 
     <!-- Structured Data (JSON-LD) -->
@@ -70,7 +94,7 @@
             "name": "Rajdeep Sarker",
             "url": "https://rajdeep.codes/",
             "image": "https://rajdeep.codes/assets/profile2.jpg.jpeg",
-            "jobTitle": "HSC Science Student, Aspiring AI/ML Engineer",
+            "jobTitle": "Student, Aspiring AI/ML Engineer",
             "address": {
                 "@type": "PostalAddress",
                 "addressLocality": "Mymensingh",
@@ -112,6 +136,11 @@
                 <li><a href="#achievements">Achievements</a></li>
                 <li><a href="#contact">Contact</a></li>
                 <li><a href="assets/Rajdeep_Sarker_CV.pdf" download="Rajdeep_Sarker_CV.pdf" class="cv-download-link"><i class="fas fa-download"></i> CV</a></li>
+                <li>
+                    <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle dark/light theme">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                </li>
             </ul>
             <div class="hamburger">
                 <span></span>
@@ -124,20 +153,33 @@
     <!-- Hero Section -->
     <section id="home" class="hero">
         <div class="hero-content">
-            <span class="hero-kicker">AI/ML learner + science student</span>
+            <span class="hero-kicker">Student</span>
             <h1 class="hero-title">Hello, I'm <span class="highlight">Rajdeep Sarker</span></h1>
-            <p class="hero-subtitle">HSC Science Student | Aspiring AI/ML Engineer</p>
+            <div class="hero-focus-container">
+                <span class="hero-focus-tag"><i class="fab fa-python"></i> Python</span>
+                <span class="hero-focus-tag"><i class="fas fa-brain"></i> Machine Learning</span>
+                <span class="hero-focus-tag"><i class="fas fa-cogs"></i> Automation</span>
+            </div>
+            <p class="hero-subtitle">Student | Aspiring AI/ML Engineer</p>
             <p class="hero-description">Passionate about Artificial Intelligence, Machine Learning & Innovation</p>
-            <div class="hero-buttons">
-                <a href="#about" class="btn btn-primary">Learn More</a>
-                <a href="#contact" class="btn btn-secondary">Contact Me</a>
-                <a href="assets/Rajdeep_Sarker_CV.pdf" class="btn btn-download" download="Rajdeep_Sarker_CV.pdf">
-                    <i class="fas fa-download"></i> Download CV
-                </a>
+            <div class="hero-cta-wrapper">
+                <div class="hero-buttons">
+                    <a href="#projects" class="btn btn-primary">View My Work</a>
+                    <a href="assets/Rajdeep_Sarker_CV.pdf" class="btn btn-secondary btn-cv-hero" download="Rajdeep_Sarker_CV.pdf">
+                        <i class="fas fa-download"></i> Download CV
+                    </a>
+                </div>
+                <div class="hero-socials">
+                    <a href="https://github.com/rajdeep-sarker" target="_blank" rel="me noopener noreferrer" class="hero-social-link" aria-label="GitHub profile"><i class="fab fa-github"></i></a>
+                    <a href="https://www.linkedin.com/in/rajdeepsarker/" target="_blank" rel="me noopener noreferrer" class="hero-social-link" aria-label="LinkedIn profile"><i class="fab fa-linkedin"></i></a>
+                </div>
             </div>
         </div>
         <div class="hero-visual" aria-label="Rajdeep Sarker portrait">
             <div class="signal-card">
+                <div class="photo-badge badge-top-right">
+                    <span class="dot-online"></span> RAJDEEP
+                </div>
                 <img class="hero-portrait" src="assets/profile2.jpg.jpeg" alt="Rajdeep Sarker in college uniform" width="620" height="820" decoding="async" fetchpriority="high">
                 <img class="orbit-strip" src="assets/RAJDEEP.png" alt="" width="911" height="289" loading="lazy" decoding="async">
                 <div class="scan-line" aria-hidden="true"></div>
@@ -217,97 +259,136 @@
     <section id="skills" class="skills">
         <div class="container">
             <h2 class="section-title">Skills & Subjects</h2>
-            <div class="skills-grid">
-                <!-- Academic Skills -->
-                <div class="skill-category">
-                    <h3><i class="fas fa-book"></i> Academic Subjects</h3>
-                    <div class="skill-bars">
-                        <div class="skill-bar">
-                            <div class="skill-info">
-                                <span>Physics</span>
-                                <span>90%</span>
-                            </div>
-                            <div class="skill-progress">
-                                <div class="skill-progress-fill" data-progress="90"></div>
-                            </div>
+            
+            <!-- Academic Foundation Sub-section -->
+            <div class="academic-foundation-wrapper">
+                <h3 class="skills-sub-title"><i class="fas fa-book"></i> Academic Foundation</h3>
+                <div class="academic-grid">
+                    <div class="academic-card">
+                        <div class="academic-card-header">
+                            <span class="subject-name">Physics</span>
+                            <span class="subject-score">90%</span>
                         </div>
-                        <div class="skill-bar">
-                            <div class="skill-info">
-                                <span>Chemistry</span>
-                                <span>88%</span>
-                            </div>
-                            <div class="skill-progress">
-                                <div class="skill-progress-fill" data-progress="88"></div>
-                            </div>
+                        <div class="skill-progress">
+                            <div class="skill-progress-fill" data-progress="90"></div>
                         </div>
-                        <div class="skill-bar">
-                            <div class="skill-info">
-                                <span>Mathematics</span>
-                                <span>85%</span>
-                            </div>
-                            <div class="skill-progress">
-                                <div class="skill-progress-fill" data-progress="85"></div>
-                            </div>
+                    </div>
+                    <div class="academic-card">
+                        <div class="academic-card-header">
+                            <span class="subject-name">Chemistry</span>
+                            <span class="subject-score">88%</span>
                         </div>
-                        <div class="skill-bar">
-                            <div class="skill-info">
-                                <span>Biology</span>
-                                <span>90%</span>
-                            </div>
-                            <div class="skill-progress">
-                                <div class="skill-progress-fill" data-progress="90"></div>
-                            </div>
+                        <div class="skill-progress">
+                            <div class="skill-progress-fill" data-progress="88"></div>
                         </div>
-                        <div class="skill-bar">
-                            <div class="skill-info">
-                                <span>ICT</span>
-                                <span>92%</span>
-                            </div>
-                            <div class="skill-progress">
-                                <div class="skill-progress-fill" data-progress="92"></div>
-                            </div>
+                    </div>
+                    <div class="academic-card">
+                        <div class="academic-card-header">
+                            <span class="subject-name">Mathematics</span>
+                            <span class="subject-score">85%</span>
+                        </div>
+                        <div class="skill-progress">
+                            <div class="skill-progress-fill" data-progress="85"></div>
+                        </div>
+                    </div>
+                    <div class="academic-card">
+                        <div class="academic-card-header">
+                            <span class="subject-name">Biology</span>
+                            <span class="subject-score">90%</span>
+                        </div>
+                        <div class="skill-progress">
+                            <div class="skill-progress-fill" data-progress="90"></div>
+                        </div>
+                    </div>
+                    <div class="academic-card">
+                        <div class="academic-card-header">
+                            <span class="subject-name">ICT</span>
+                            <span class="subject-score">92%</span>
+                        </div>
+                        <div class="skill-progress">
+                            <div class="skill-progress-fill" data-progress="92"></div>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <!-- Technical Skills -->
-                <div class="skill-category">
-                    <h3><i class="fas fa-laptop-code"></i> Technical Skills</h3>
-                    <div class="skill-bars">
-                        <div class="skill-bar">
-                            <div class="skill-info">
-                                <span>Python</span>
-                                <span>75%</span>
+            <!-- Tech Stack Sub-section -->
+            <div class="tech-stack-wrapper">
+                <h3 class="skills-sub-title"><i class="fas fa-laptop-code"></i> Technical Stack & Tools</h3>
+                <div class="tech-stack-categories">
+                    <!-- Languages -->
+                    <div class="tech-category-card">
+                        <h4>Languages</h4>
+                        <div class="tech-grid">
+                            <div class="tech-item" title="Python">
+                                <div class="tech-icon-wrapper"><i class="fab fa-python" style="color: #3776AB;"></i></div>
+                                <span class="tech-name">Python</span>
                             </div>
-                            <div class="skill-progress">
-                                <div class="skill-progress-fill" data-progress="75"></div>
+                            <div class="tech-item" title="JavaScript">
+                                <div class="tech-icon-wrapper"><i class="fab fa-js" style="color: #F7DF1E;"></i></div>
+                                <span class="tech-name">JavaScript</span>
                             </div>
-                        </div>
-                        <div class="skill-bar">
-                            <div class="skill-info">
-                                <span>Machine Learning Basics</span>
-                                <span>60%</span>
+                            <div class="tech-item" title="HTML5">
+                                <div class="tech-icon-wrapper"><i class="fab fa-html5" style="color: #E34F26;"></i></div>
+                                <span class="tech-name">HTML5</span>
                             </div>
-                            <div class="skill-progress">
-                                <div class="skill-progress-fill" data-progress="60"></div>
+                            <div class="tech-item" title="CSS3">
+                                <div class="tech-icon-wrapper"><i class="fab fa-css3-alt" style="color: #1572B6;"></i></div>
+                                <span class="tech-name">CSS3</span>
                             </div>
-                        </div>
-                        <div class="skill-bar">
-                            <div class="skill-info">
-                                <span>HTML & CSS</span>
-                                <span>70%</span>
-                            </div>
-                            <div class="skill-progress">
-                                <div class="skill-progress-fill" data-progress="70"></div>
+                            <div class="tech-item" title="SQL">
+                                <div class="tech-icon-wrapper"><i class="fas fa-database" style="color: #336791;"></i></div>
+                                <span class="tech-name">SQL</span>
                             </div>
                         </div>
-                        <div class="skill-bar">
-                            <div class="skill-info">
-                                <span>Data Analysis</span>
-                                <span>65%</span>
+                    </div>
+                    
+                    <!-- Tools & Automation -->
+                    <div class="tech-category-card">
+                        <h4>Tools & Automation</h4>
+                        <div class="tech-grid">
+                            <div class="tech-item" title="Git & GitHub">
+                                <div class="tech-icon-wrapper"><i class="fab fa-github" style="color: #F05032;"></i></div>
+                                <span class="tech-name">Git/GitHub</span>
                             </div>
-                            <div class="skill-progress">
-                                <div class="skill-progress-fill" data-progress="65"></div>
+                            <div class="tech-item" title="Pandas & NumPy">
+                                <div class="tech-icon-wrapper"><i class="fas fa-chart-bar" style="color: #150458;"></i></div>
+                                <span class="tech-name">Pandas/NumPy</span>
+                            </div>
+                            <div class="tech-item" title="Scikit-Learn">
+                                <div class="tech-icon-wrapper"><i class="fas fa-brain" style="color: #F89917;"></i></div>
+                                <span class="tech-name">Scikit-Learn</span>
+                            </div>
+                            <div class="tech-item" title="VS Code">
+                                <div class="tech-icon-wrapper"><i class="fas fa-code" style="color: #007ACC;"></i></div>
+                                <span class="tech-name">VS Code</span>
+                            </div>
+                            <div class="tech-item" title="Linux/Bash">
+                                <div class="tech-icon-wrapper"><i class="fas fa-terminal" style="color: #4EEDAC;"></i></div>
+                                <span class="tech-name">Linux/Bash</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Core Concepts -->
+                    <div class="tech-category-card">
+                        <h4>Core Concepts</h4>
+                        <div class="tech-grid">
+                            <div class="tech-item" title="Machine Learning">
+                                <div class="tech-icon-wrapper"><i class="fas fa-network-wired" style="color: #8B5CF6;"></i></div>
+                                <span class="tech-name">ML Basics</span>
+                            </div>
+                            <div class="tech-item" title="Data Analysis">
+                                <div class="tech-icon-wrapper"><i class="fas fa-chart-pie" style="color: #10B981;"></i></div>
+                                <span class="tech-name">Data Analysis</span>
+                            </div>
+                            <div class="tech-item" title="Web Scraping">
+                                <div class="tech-icon-wrapper"><i class="fas fa-spider" style="color: #F43F5E;"></i></div>
+                                <span class="tech-name">Web Scraping</span>
+                            </div>
+                            <div class="tech-item" title="Workflow Automation">
+                                <div class="tech-icon-wrapper"><i class="fas fa-cogs" style="color: #06B6D4;"></i></div>
+                                <span class="tech-name">Automation</span>
                             </div>
                         </div>
                     </div>
@@ -316,7 +397,7 @@
 
             <!-- Soft Skills -->
             <div class="soft-skills">
-                <h3><i class="fas fa-users"></i> Soft Skills</h3>
+                <h3 class="skills-sub-title"><i class="fas fa-users"></i> Soft Skills</h3>
                 <div class="soft-skills-grid">
                     <div class="soft-skill">
                         <i class="fas fa-comments"></i>
@@ -351,52 +432,105 @@
     <section id="projects" class="projects">
         <div class="container">
             <h2 class="section-title">Projects & Works</h2>
-            <div class="projects-grid">
-                <div class="project-card">
-                    <div class="project-image">
-                        <img src="assets/project1.jpg" alt="Screenshot of a machine learning classification project" width="600" height="400" loading="lazy" decoding="async" fetchpriority="low" onerror="this.onerror=null;this.src='assets/college%20gate.jpg';">
-                    </div>
-                    <div class="project-content">
-                        <h3>Machine Learning Model</h3>
-                        <p>Developed a basic machine learning model for data classification using Python and scikit-learn. Exploring supervised learning algorithms and model evaluation techniques.</p>
-                        <div class="project-tags">
-                            <span class="tag">Python</span>
-                            <span class="tag">ML</span>
-                            <span class="tag">Data Science</span>
+            
+            <!-- Featured Projects Sub-section -->
+            <div class="featured-projects-wrapper">
+                <h3 class="projects-sub-title"><i class="fas fa-star"></i> Featured Projects</h3>
+                <div class="featured-projects-grid">
+                    
+                    <!-- Featured Project 1 -->
+                    <div class="project-card featured-card">
+                        <div class="project-image">
+                            <img src="assets/project1.jpg" alt="Screenshot of a machine learning classification project" width="600" height="400" loading="lazy" decoding="async" fetchpriority="low" onerror="this.onerror=null;this.src='assets/college%20gate.jpg';">
+                            <span class="featured-badge">Featured</span>
+                        </div>
+                        <div class="project-content">
+                            <h3>Machine Learning Model</h3>
+                            <p>Developed a basic machine learning model for data classification using Python and scikit-learn. Exploring supervised learning algorithms and model evaluation techniques.</p>
+                            <div class="project-tags">
+                                <span class="tag">Python</span>
+                                <span class="tag">Scikit-Learn</span>
+                                <span class="tag">ML</span>
+                            </div>
+                            <div class="project-actions">
+                                <a href="https://github.com/rajdeep-sarker/ML-Classification-Model" target="_blank" rel="noopener noreferrer" class="project-link btn-github"><i class="fab fa-github"></i> GitHub</a>
+                                <a href="https://colab.research.google.com/" target="_blank" rel="noopener noreferrer" class="project-link btn-demo"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="project-card">
-                    <div class="project-image">
-                        <img src="assets/project2.jpg" alt="Screenshot of a personal portfolio website project" width="600" height="400" loading="lazy" decoding="async" fetchpriority="low" onerror="this.onerror=null;this.src='assets/college%20gate.jpg';">
-                    </div>
-                    <div class="project-content">
-                        <h3>Personal Portfolio Website</h3>
-                        <p>A responsive portfolio website created using HTML, CSS, and JavaScript. Features modern design, smooth animations, and mobile-friendly interface.</p>
-                        <div class="project-tags">
-                            <span class="tag">HTML</span>
-                            <span class="tag">CSS</span>
-                            <span class="tag">JavaScript</span>
+                    <!-- Featured Project 2 -->
+                    <div class="project-card featured-card">
+                        <div class="project-image">
+                            <img src="assets/project2.jpg" alt="Screenshot of a personal portfolio website project" width="600" height="400" loading="lazy" decoding="async" fetchpriority="low" onerror="this.onerror=null;this.src='assets/college%20gate.jpg';">
+                            <span class="featured-badge">Featured</span>
+                        </div>
+                        <div class="project-content">
+                            <h3>Personal Portfolio Website</h3>
+                            <p>A responsive, high-performance portfolio website built using vanilla web technologies. Redesigned with premium typography, clean layouts, and search engine optimization.</p>
+                            <div class="project-tags">
+                                <span class="tag">HTML</span>
+                                <span class="tag">CSS</span>
+                                <span class="tag">JavaScript</span>
+                            </div>
+                            <div class="project-actions">
+                                <a href="https://github.com/rajdeep-sarker/portfolio" target="_blank" rel="noopener noreferrer" class="project-link btn-github"><i class="fab fa-github"></i> GitHub</a>
+                                <a href="https://rajdeep.codes/" target="_blank" rel="noopener noreferrer" class="project-link btn-demo"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="project-card">
-                    <div class="project-image">
-                        <img src="assets/project3.jpg" alt="Screenshot of a Python data analysis and visualization project" width="600" height="400" loading="lazy" decoding="async" fetchpriority="low" onerror="this.onerror=null;this.src='assets/college%20gate.jpg';">
-                    </div>
-                    <div class="project-content">
-                        <h3>Data Analysis Project</h3>
-                        <p>Analyzed datasets using Python libraries like Pandas and NumPy. Created visualizations to understand data patterns and trends.</p>
-                        <div class="project-tags">
-                            <span class="tag">Python</span>
-                            <span class="tag">Data Analysis</span>
-                            <span class="tag">Visualization</span>
-                        </div>
-                    </div>
                 </div>
             </div>
+
+            <!-- Other Projects Sub-section -->
+            <div class="other-projects-wrapper">
+                <h3 class="projects-sub-title"><i class="fas fa-folder-open"></i> Other Projects</h3>
+                <div class="minor-projects-grid">
+                    
+                    <!-- Minor Project 1 -->
+                    <div class="project-card minor-card">
+                        <div class="project-image">
+                            <img src="assets/project3.jpg" alt="Screenshot of a Python data analysis and visualization project" width="600" height="400" loading="lazy" decoding="async" fetchpriority="low" onerror="this.onerror=null;this.src='assets/college%20gate.jpg';">
+                        </div>
+                        <div class="project-content">
+                            <h3>Data Analysis Project</h3>
+                            <p>Analyzed datasets using Python libraries like Pandas and NumPy. Created visualizations to understand data patterns and trends.</p>
+                            <div class="project-tags">
+                                <span class="tag">Python</span>
+                                <span class="tag">Pandas</span>
+                                <span class="tag">Matplotlib</span>
+                            </div>
+                            <div class="project-actions">
+                                <a href="https://github.com/rajdeep-sarker/Data-Analysis-Pandas" target="_blank" rel="noopener noreferrer" class="project-link btn-github"><i class="fab fa-github"></i> GitHub</a>
+                                <a href="https://github.com/rajdeep-sarker/Data-Analysis-Pandas#preview" target="_blank" rel="noopener noreferrer" class="project-link btn-demo"><i class="fas fa-external-link-alt"></i> Demo</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Minor Project 2 -->
+                    <div class="project-card minor-card">
+                        <div class="project-image">
+                            <img src="assets/project1.jpg" alt="Screenshot of automation bot" width="600" height="400" loading="lazy" decoding="async" fetchpriority="low" onerror="this.onerror=null;this.src='assets/college%20gate.jpg';">
+                        </div>
+                        <div class="project-content">
+                            <h3>Task Automation Script</h3>
+                            <p>A Python scripting suite developed to automate file sorting, clean clutter, scrape data, and schedule email reports.</p>
+                            <div class="project-tags">
+                                <span class="tag">Python</span>
+                                <span class="tag">Automation</span>
+                                <span class="tag">BeautifulSoup</span>
+                            </div>
+                            <div class="project-actions">
+                                <a href="https://github.com/rajdeep-sarker/Python-Automation-Scripts" target="_blank" rel="noopener noreferrer" class="project-link btn-github"><i class="fab fa-github"></i> GitHub</a>
+                                <a href="https://github.com/rajdeep-sarker/Python-Automation-Scripts#readme" target="_blank" rel="noopener noreferrer" class="project-link btn-demo"><i class="fas fa-external-link-alt"></i> Docs</a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
         </div>
     </section>
 
@@ -504,6 +638,6 @@
         </div>
     </footer>
 
-    <script src="js/script.js" defer></script>
+    <script src="js/script.js?v=1.6" defer></script>
 </body>
 </html>

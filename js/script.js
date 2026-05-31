@@ -321,25 +321,6 @@ function createScrollTopButton() {
     const button = document.createElement('button');
     button.innerHTML = '<i class="fas fa-arrow-up"></i>';
     button.classList.add('scroll-top-btn');
-    button.style.cssText = `
-        position: fixed;
-        bottom: 30px;
-        right: 30px;
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        background: var(--accent-color);
-        color: var(--primary-color);
-        border: none;
-        cursor: pointer;
-        display: none;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.2rem;
-        z-index: 999;
-        transition: all 0.3s ease;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    `;
     
     document.body.appendChild(button);
     
@@ -348,14 +329,6 @@ function createScrollTopButton() {
             top: 0,
             behavior: 'smooth'
         });
-    });
-    
-    button.addEventListener('mouseenter', () => {
-        button.style.transform = 'translateY(-5px)';
-    });
-    
-    button.addEventListener('mouseleave', () => {
-        button.style.transform = 'translateY(0)';
     });
     return button;
 }
@@ -394,8 +367,10 @@ function handleScroll() {
         }
     }
 
-    if (current && current !== activeSectionId) {
-        activeSectionId = current;
+    const activeId = current || 'home';
+    if (activeId !== activeSectionId) {
+        activeSectionId = activeId;
+        document.body.setAttribute('data-active-section', activeSectionId);
         navLinksAll.forEach((link) => {
             const href = link.getAttribute('href') || '';
             link.classList.toggle('active', href.startsWith('#') && href.slice(1) === activeSectionId);
@@ -426,3 +401,36 @@ window.addEventListener('load', () => {
     updateSectionTops();
     handleScroll();
 }, { once: true });
+
+// Theme Switching Logic
+document.addEventListener('DOMContentLoaded', () => {
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    const htmlElement = document.documentElement;
+
+    function setTheme(isDark) {
+        if (isDark) {
+            htmlElement.classList.add('dark');
+            localStorage.setItem('theme', 'dark');
+            if (themeToggleBtn) {
+                themeToggleBtn.innerHTML = '<i class="fas fa-sun"></i>';
+            }
+        } else {
+            htmlElement.classList.remove('dark');
+            localStorage.setItem('theme', 'light');
+            if (themeToggleBtn) {
+                themeToggleBtn.innerHTML = '<i class="fas fa-moon"></i>';
+            }
+        }
+    }
+
+    // Sync button icon with current state
+    const isDark = htmlElement.classList.contains('dark');
+    if (themeToggleBtn) {
+        themeToggleBtn.innerHTML = isDark ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+
+        themeToggleBtn.addEventListener('click', () => {
+            const currentDark = htmlElement.classList.contains('dark');
+            setTheme(!currentDark);
+        });
+    }
+});

@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Website is Updating | Rajdeep Codes</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    /* Reset & Base Styles */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      background-color: #0b0f19;
+      color: #f3f4f6;
+      font-family: 'Manrope', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      overflow: hidden;
+      position: relative;
+    }
+    
+    /* Tech Grid Overlay */
+    body::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: 
+        linear-gradient(rgba(59, 130, 246, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(59, 130, 246, 0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      background-position: center;
+      mask-image: radial-gradient(circle at center, black, transparent 80%);
+      -webkit-mask-image: radial-gradient(circle at center, black, transparent 80%);
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    /* Ambient Radial Glow */
+    .glow-effect {
+      position: absolute;
+      top: 25%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(59, 130, 246, 0.08) 0%, transparent 70%);
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    /* Layout Wrapper */
+    .container {
+      position: relative;
+      z-index: 2;
+      max-width: 620px;
+      width: 100%;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2.25rem;
+    }
+
+    /* Glowing Status Badge */
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      background: rgba(59, 130, 246, 0.06);
+      border: 1px solid rgba(59, 130, 246, 0.15);
+      padding: 0.5rem 1.25rem;
+      border-radius: 9999px;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .status-pulse {
+      width: 8px;
+      height: 8px;
+      background-color: #3b82f6;
+      border-radius: 50%;
+      position: relative;
+      box-shadow: 0 0 10px #3b82f6;
+    }
+
+    .status-pulse::after {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: 50%;
+      border: 2px solid #3b82f6;
+      animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+      opacity: 0;
+    }
+
+    @keyframes pulse-ring {
+      0% {
+        transform: scale(0.8);
+        opacity: 0.8;
+      }
+      100% {
+        transform: scale(2.2);
+        opacity: 0;
+      }
+    }
+
+    .status-text {
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #93c5fd;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* Headings */
+    h1 {
+      font-size: 2.75rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.2;
+      background: linear-gradient(135deg, #ffffff 40%, #a1a1aa 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 0.75rem;
+    }
+
+    p {
+      color: #9ca3af;
+      font-size: 1.05rem;
+      line-height: 1.6;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    /* Interactive Terminal Box */
+    .terminal {
+      background-color: #111827;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      width: 100%;
+      text-align: left;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      box-shadow: 
+        0 20px 40px -15px rgba(0, 0, 0, 0.8),
+        0 0 0 1px rgba(255, 255, 255, 0.02);
+      overflow: hidden;
+    }
+
+    .terminal-header {
+      background-color: #1f2937;
+      padding: 0.75rem 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .terminal-controls {
+      display: flex;
+      gap: 6px;
+    }
+
+    .control-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+
+    .dot-close { background-color: #ef4444; }
+    .dot-minimize { background-color: #f59e0b; }
+    .dot-expand { background-color: #10b981; }
+
+    .terminal-title {
+      color: #6b7280;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+    }
+
+    .terminal-body {
+      padding: 1.25rem;
+      height: 220px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
+    }
+
+    .terminal-body::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .terminal-body::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 2px;
+    }
+
+    .line {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+      min-height: 1.25rem;
+      flex-shrink: 0; /* Critical Fix: Prevents layout engines from shrinking lines to 0 height and overlapping */
+    }
+
+    .prompt {
+      color: #60a5fa;
+      user-select: none;
+      font-weight: bold;
+    }
+
+    .content {
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+
+    .cursor {
+      display: inline-block;
+      width: 8px;
+      height: 15px;
+      background-color: #34d399;
+      margin-left: 2px;
+      vertical-align: middle;
+      animation: blink 1s step-end infinite;
+    }
+
+    @keyframes blink {
+      from, to { background-color: transparent }
+      50% { background-color: #34d399 }
+    }
+
+    /* Minimalist Footer */
+    footer {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      font-size: 0.75rem;
+      color: #4b5563;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    footer a {
+      color: #60a5fa;
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    footer a:hover {
+      color: #93c5fd;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="glow-effect"></div>
+
+  <div class="container">
+    <!-- Pulsing Status Badge -->
+    <div class="status-badge">
+      <span class="status-pulse"></span>
+      <span class="status-text">Active Deployment</span>
+    </div>
+
+    <!-- Message Header -->
+    <div>
+      <h1>Website is Updating</h1>
+      <p>Our systems are currently undergoing scheduled maintenance to improve performance and security. Services will resume shortly.</p>
+    </div>
+
+    <!-- Console Terminal -->
+    <div class="terminal">
+      <div class="terminal-header">
+        <div class="terminal-controls">
+          <span class="control-dot dot-close"></span>
+          <span class="control-dot dot-minimize"></span>
+          <span class="control-dot dot-expand"></span>
+        </div>
+        <span class="terminal-title">bash — deploy.sh</span>
+        <div style="width: 42px;"></div> <!-- Horizontal layout balancer -->
+      </div>
+      <div class="terminal-body" id="terminal-output">
+        <!-- Logs dynamically injected by JavaScript -->
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    &copy; 2026 Rajdeep Sarker &bull; <a href="mailto:info@rajdeep.codes">info@rajdeep.codes</a>
+  </footer>
+
+  <script>
+    const initialLogs = [
+      { text: "Initializing portfolio build pipeline...", delay: 400, type: "system" },
+      { text: "Connecting to repository: github.com/rajdeep201090/portfolio...", delay: 600, type: "system" },
+      { text: "git pull origin main", delay: 300, type: "command" },
+      { text: "Updating c12b9a4..8f7b2c1\nFast-forward\n data/portfolio.json           | 42 ++++++++++++++--\n src/components/Projects.tsx    | 18 +++++--\n src/components/Experience.tsx  | 14 +++++-\n 3 files changed, 65 insertions(+), 9 deletions(-)", delay: 800, type: "output" },
+      { text: "Updating layout modules, project assets, and showcase profiles...", delay: 500, type: "system" },
+      { text: "npm run build", delay: 300, type: "command" },
+      { text: "> rajdeep-portfolio@3.0.0 build\n> vite build\n\nvite v5.2.11 building for production...\ntransform... [OK]\nrendering chunks... [OK]\n\ndist/index.html                     4.85 kB\ndist/assets/index-D78a9c.js        142.10 kB │ gzip:  42.50 kB\ndist/assets/index-B1a9c3.css        18.45 kB │ gzip:   5.12 kB\n\n✓ Built portfolio successfully in 1.48s", delay: 1800, type: "output" },
+      { text: "Syncing static files to CDN gateway...", delay: 500, type: "system" },
+      { text: "aws s3 sync dist/ s3://rajdeep.codes --delete", delay: 300, type: "command" },
+      { text: "upload: dist/index.html to s3://rajdeep.codes/index.html\nupload: dist/assets/index-D78a9c.js to s3://rajdeep.codes/assets/index-D78a9c.js\nSync complete. Clearing regional caches...", delay: 1200, type: "output" },
+      { text: "aws cloudfront create-invalidation --distribution-id E3P... --paths \"/*\"", delay: 300, type: "command" },
+      { text: "Invalidation ID: I3K8A1J9B2C3D4\nStatus: Completed", delay: 700, type: "output" },
+      { text: "Performing system verification checks...", delay: 1000, type: "system" },
+      { text: "Status: 200 OK | Portfolio is live at https://rajdeep.codes/", delay: 600, type: "success" },
+      { text: "Entering maintenance standby mode...", delay: 400, type: "system" }
+    ];
+
+    const standbyLogs = [
+      { text: "UPDATING: Checking visitor inbox & contact form queue...", type: "system" },
+      { text: "HEALTH: Contact database verified. 0 pending notifications. [OK]", type: "success" },
+      { text: "SYSTEM: Resource usage - CPU: 1.8% | Memory: 22.4% | Temp: 37°C", type: "output" },
+      { text: "UPDATING: Scanning portfolio performance benchmarks...", type: "system" },
+      { text: "HEALTH: Pagespeed Index: 99/100 | LCP: 0.8s", type: "success" },
+      { text: "UPDATING: Running security checks on mail api integration...", type: "system" },
+      { text: "curl -s -o /dev/null -w \"%{http_code}\" https://api.rajdeep.codes/health", type: "command" },
+      { text: "200", type: "output" },
+      { text: "HEALTH: Mail gateway check: 200 OK [Healthy]", type: "success" },
+      { text: "UPDATING: Synchronizing project repository lists with GitHub API...", type: "system" },
+      { text: "Updated cache for 14 public repositories.", type: "output" },
+      { text: "INFO: System lock active. Awaiting administrative release.", type: "system" }
+    ];
+
+    const terminalContainer = document.getElementById("terminal-output");
+
+    const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+    function getTimestamp() {
+      const now = new Date();
+      return now.toTimeString().split(' ')[0]; // Returns HH:MM:SS format
+    }
+
+    async function printLine(log) {
+      // Split by newlines so each line gets its own unique flexbox container row (prevents rendering engine layout bugs)
+      const textLines = log.text.split("\n");
+      
+      for (let i = 0; i < textLines.length; i++) {
+        const textSegment = textLines[i];
+        const row = document.createElement("div");
+        row.className = "line";
+        
+        // Draw the prompt '$' only on the first line of a command entry
+        if (log.type === "command" && i === 0) {
+          const prompt = document.createElement("span");
+          prompt.className = "prompt";
+          prompt.textContent = "$";
+          row.appendChild(prompt);
+        } else if (log.type === "command") {
+          // Indent command lines that wrap or represent outputs
+          const space = document.createElement("span");
+          space.className = "prompt";
+          space.textContent = " ";
+          row.appendChild(space);
+        }
+
+        const textBody = document.createElement("span");
+        textBody.className = "content";
+        
+        // Apply coloring based on message type
+        if (log.type === "command") {
+          textBody.style.color = "#34d399";
+        } else if (log.type === "success") {
+          textBody.style.color = "#4ade80";
+          textBody.style.fontWeight = "bold";
+        } else if (log.type === "system") {
+          textBody.style.color = "#60a5fa";
+        } else {
+          textBody.style.color = "#9ca3af";
+        }
+        
+        row.appendChild(textBody);
+        terminalContainer.appendChild(row);
+        terminalContainer.scrollTop = terminalContainer.scrollHeight;
+
+        if (log.type === "command" && i === 0) {
+          const cursor = document.createElement("span");
+          cursor.className = "cursor";
+          row.appendChild(cursor);
+          
+          for (let char of textSegment) {
+            textBody.textContent += char;
+            await wait(25 + Math.random() * 20);
+          }
+          await wait(150);
+          cursor.remove();
+        } else {
+          if (log.delay && i === 0) {
+            await wait(log.delay);
+          }
+          textBody.textContent = textSegment;
+        }
+        await wait(50);
+      }
+    }
+
+    async function streamLogs() {
+      terminalContainer.innerHTML = "";
+      
+      // 1. Initial build sequences (run once)
+      for (const log of initialLogs) {
+        await printLine(log);
+        await wait(250);
+      }
+
+      // 2. Loop continuous system standby & updating checks indefinitely
+      let index = 0;
+      while (true) {
+        const log = standbyLogs[index % standbyLogs.length];
+        
+        const timestampedLog = {
+          text: `[${getTimestamp()}] ${log.text}`,
+          type: log.type,
+          delay: log.delay || 0
+        };
+        
+        await printLine(timestampedLog);
+        index++;
+        
+        // Wait random time between 2 to 4.5 seconds for next live updates
+        await wait(2000 + Math.random() * 2500);
+      }
+    }
+
+    // Trigger main loop
+    streamLogs();
+  </script>
+</body>
+</html>
