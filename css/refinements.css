@@ -1,0 +1,19 @@
+/* Warm editorial light palette; the night palette stays lime-based. */
+body:not(.night){--bg:#f7f3ee!important;--surface:#fffdf9!important;--ink:#20201d!important;--muted:#66615b!important;--line:#ded5cc!important;--accent:#a75c3b!important;--accent-soft:#f1dfd4!important}
+.section-label{display:inline-flex!important;align-items:center!important;min-height:38px!important;margin-bottom:2.7rem!important;padding:.45rem .85rem!important;border:1px solid var(--line)!important;border-left:4px solid var(--accent)!important;background:var(--accent-soft)!important;color:var(--ink)!important;font-weight:600!important;box-shadow:4px 4px 0 color-mix(in srgb,var(--accent) 20%,transparent)!important}
+.contact .section-label{color:#f5f4ee!important;background:transparent!important;border-color:#485046!important;border-left-color:var(--accent)!important;box-shadow:none!important}
+.contact{border-top:1px solid var(--line)!important;background:var(--bg)!important;color:var(--ink)!important}
+.contact .section-label{color:var(--ink)!important;background:var(--accent-soft)!important;border-color:var(--line)!important;border-left-color:var(--accent)!important;box-shadow:4px 4px 0 color-mix(in srgb,var(--accent) 20%,transparent)!important}
+.contact p,.contact .location{color:var(--muted)!important}
+.contact-email{color:var(--accent)!important}.contact-email:hover{color:var(--ink)!important}
+.contact .socials a{color:var(--ink)!important;border-color:var(--line)!important}.contact .socials a:hover{color:#17200f!important}
+.contact form label{color:var(--muted)!important}.contact input,.contact textarea{color:var(--ink)!important;border-color:var(--line)!important}
+.js-ready .section-label{opacity:0;transform:translateX(-14px) scale(.97)}
+.section-label{transition:opacity .55s ease,transform .55s cubic-bezier(.2,.8,.2,1),box-shadow .25s ease!important}
+.section-label.section-visible{opacity:1!important;transform:none!important}
+.section-label:hover{transform:translateX(5px)!important;box-shadow:7px 7px 0 color-mix(in srgb,var(--accent) 28%,transparent)!important}
+.form-status{min-height:1.55em;opacity:0;transform:translateY(-7px);transition:opacity .35s ease,transform .35s ease,color .25s!important}
+.form-status.show{opacity:1;transform:none;color:var(--accent)!important}
+.about-photo{filter:none!important}
+@media(min-width:761px){.about-photo{filter:grayscale(1)!important}.about-photo:hover{filter:none!important}}
+@media(max-width:760px){.section-label{font-size:.69rem!important;margin-bottom:1.8rem!important}}

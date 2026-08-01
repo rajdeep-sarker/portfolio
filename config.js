@@ -5,4 +5,4 @@
 //  Change to  false → Normal website ON
 // ============================================
 
-window.MAINTENANCE_MODE = true;
+window.MAINTENANCE_MODE = false;
