@@ -119,6 +119,14 @@ body:not(.night) .socials a:hover {
   .about-photo:hover { filter: none !important }
 }
 
+/* ── Single achievement card layout ── */
+.achievement-grid {
+  grid-template-columns: 1fr !important;
+  max-width: 480px !important;
+  background: none !important;
+  border: none !important;
+}
+
 /* ── Mobile ── */
 @media (max-width: 760px) {
   .section-label { font-size: .69rem !important; margin-bottom: 1.8rem !important }
