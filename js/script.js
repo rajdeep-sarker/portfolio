@@ -33,7 +33,7 @@ const loadLenis = () => {
   return lenisLoader;
 };
 
-if (prefersReducedMotion) {
+if (prefersReducedMotion || ('ontouchstart' in window && window.matchMedia('(pointer: coarse)').matches)) {
   enableNativeScrollTracking();
 } else {
   loadLenis()
@@ -46,7 +46,8 @@ if (prefersReducedMotion) {
       const lenis = new LenisCtor({
         duration: 1.1,
         smoothWheel: true,
-        syncTouch: true,
+        syncTouch: false,
+        touchMultiplier: 1.5,
         anchors: true
       });
 

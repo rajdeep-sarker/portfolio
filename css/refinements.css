@@ -1,20 +1,152 @@
-/* Warm editorial light palette; the night palette stays lime-based. */
-body:not(.night){--bg:#f7f3ee!important;--surface:#fffdf9!important;--ink:#20201d!important;--muted:#66615b!important;--line:#ded5cc!important;--accent:#a75c3b!important;--accent-soft:#f1dfd4!important}
-.section-label{display:inline-flex!important;align-items:center!important;min-height:38px!important;margin-bottom:2.7rem!important;padding:.45rem .85rem!important;border:1px solid var(--line)!important;border-left:4px solid var(--accent)!important;background:var(--accent-soft)!important;color:var(--ink)!important;font-weight:600!important;box-shadow:4px 4px 0 color-mix(in srgb,var(--accent) 20%,transparent)!important}
-.contact .section-label{color:#f5f4ee!important;background:transparent!important;border-color:#485046!important;border-left-color:var(--accent)!important;box-shadow:none!important}
-.contact{background:var(--bg)!important;color:var(--ink)!important}
-.contact .shell.section{border-top:1px solid var(--line)!important}
-.contact .section-label{color:var(--ink)!important;background:var(--accent-soft)!important;border-color:var(--line)!important;border-left-color:var(--accent)!important;box-shadow:4px 4px 0 color-mix(in srgb,var(--accent) 20%,transparent)!important}
-.contact p,.contact .location{color:var(--muted)!important}
-.contact-email{color:var(--accent)!important}.contact-email:hover{color:var(--ink)!important}
-.contact .socials a{color:var(--ink)!important;border-color:var(--line)!important}.contact .socials a:hover{color:#17200f!important}
-.contact form label{color:var(--muted)!important}.contact input,.contact textarea{color:var(--ink)!important;border-color:var(--line)!important}
-.js-ready .section-label{opacity:0;transform:translateX(-14px) scale(.97)}
-.section-label{transition:opacity .55s ease,transform .55s cubic-bezier(.2,.8,.2,1),box-shadow .25s ease!important}
-.section-label.section-visible{opacity:1!important;transform:none!important}
-.section-label:hover{transform:translateX(5px)!important;box-shadow:7px 7px 0 color-mix(in srgb,var(--accent) 28%,transparent)!important}
-.form-status{min-height:1.55em;opacity:0;transform:translateY(-7px);transition:opacity .35s ease,transform .35s ease,color .25s!important}
-.form-status.show{opacity:1;transform:none;color:var(--accent)!important}
-.about-photo{filter:none!important}
-@media(min-width:761px){.about-photo{filter:grayscale(1)!important}.about-photo:hover{filter:none!important}}
-@media(max-width:760px){.section-label{font-size:.69rem!important;margin-bottom:1.8rem!important}}
+/* ── Tech-vibe light palette ── */
+/* Crisp cool background, deep ink, deep cyan accent (WCAG AA compliant) */
+body:not(.night) {
+  --bg: #f4f6f8 !important;
+  --surface: #ffffff !important;
+  --ink: #0f172a !important;
+  --muted: #475569 !important;
+  --line: #dde1e8 !important;
+  --accent: #0e7490 !important;
+  --accent-soft: #d5f0f7 !important;
+}
+
+/* ── Accent hover tint ── */
+body:not(.night) .nav a:hover,
+body:not(.night) summary:hover { color: var(--accent) !important }
+
+body:not(.night) .nav a:hover { background: var(--accent-soft) !important }
+
+body:not(.night) .button.primary {
+  background: var(--accent) !important;
+  color: #fff !important;
+}
+
+body:not(.night) .button.primary:hover {
+  background: #155e75 !important;
+  box-shadow: 4px 4px 0 var(--ink) !important;
+}
+
+body:not(.night) .button.ghost:hover {
+  box-shadow: 4px 4px 0 var(--ink) !important;
+}
+
+body:not(.night) .cv-link:hover,
+body:not(.night) .theme-button:hover {
+  background: var(--accent) !important;
+  color: #fff !important;
+  box-shadow: 3px 3px 0 var(--ink) !important;
+}
+
+body:not(.night) .filters button.active,
+body:not(.night) .filters button:hover {
+  background: var(--accent) !important;
+  border-color: var(--accent) !important;
+  color: #fff !important;
+}
+
+body:not(.night) .project-card:hover {
+  box-shadow: 8px 10px 0 color-mix(in srgb, var(--accent) 40%, transparent) !important;
+  border-color: var(--accent) !important;
+}
+
+body:not(.night) .achievement:hover {
+  background: var(--accent-soft) !important;
+}
+
+body:not(.night) .socials a:hover {
+  background: var(--accent) !important;
+  color: #fff !important;
+}
+
+/* ── Section labels ── */
+.section-label {
+  display: inline-flex !important;
+  align-items: center !important;
+  min-height: 38px !important;
+  margin-bottom: 2.7rem !important;
+  padding: .45rem .85rem !important;
+  border: 1px solid var(--line) !important;
+  border-left: 4px solid var(--accent) !important;
+  background: var(--accent-soft) !important;
+  color: var(--ink) !important;
+  font-weight: 600 !important;
+  box-shadow: 4px 4px 0 color-mix(in srgb, var(--accent) 20%, transparent) !important;
+}
+
+.contact .section-label {
+  color: var(--ink) !important;
+  background: var(--accent-soft) !important;
+  border-color: var(--line) !important;
+  border-left-color: var(--accent) !important;
+  box-shadow: 4px 4px 0 color-mix(in srgb, var(--accent) 20%, transparent) !important;
+}
+
+/* ── Contact section (no longer forced dark) ── */
+.contact { background: var(--bg) !important; color: var(--ink) !important }
+.contact .shell.section { border-top: 1px solid var(--line) !important }
+.contact p, .contact .location { color: var(--muted) !important }
+.contact-email { color: var(--accent) !important }
+.contact-email:hover { color: var(--ink) !important }
+.contact .socials a { color: var(--ink) !important; border-color: var(--line) !important }
+.contact .socials a:hover { color: #fff !important }
+.contact form label { color: var(--muted) !important }
+.contact input, .contact textarea { color: var(--ink) !important; border-color: var(--line) !important }
+
+/* ── Section label animation ── */
+.js-ready .section-label { opacity: 0; transform: translateX(-14px) scale(.97) }
+.section-label {
+  transition: opacity .55s ease, transform .55s cubic-bezier(.2,.8,.2,1), box-shadow .25s ease !important;
+}
+.section-label.section-visible { opacity: 1 !important; transform: none !important }
+.section-label:hover {
+  transform: translateX(5px) !important;
+  box-shadow: 7px 7px 0 color-mix(in srgb, var(--accent) 28%, transparent) !important;
+}
+
+/* ── Form status message ── */
+.form-status {
+  min-height: 1.55em;
+  opacity: 0;
+  transform: translateY(-7px);
+  transition: opacity .35s ease, transform .35s ease, color .25s !important;
+}
+.form-status.show { opacity: 1; transform: none; color: var(--accent) !important }
+
+/* ── About photo ── */
+.about-photo { filter: none !important }
+@media (min-width: 761px) {
+  .about-photo { filter: grayscale(1) !important }
+  .about-photo:hover { filter: none !important }
+}
+
+/* ── Mobile ── */
+@media (max-width: 760px) {
+  .section-label { font-size: .69rem !important; margin-bottom: 1.8rem !important }
+
+  /* Reduce expensive GPU effects on mobile */
+  .header {
+    backdrop-filter: blur(6px) !important;
+    -webkit-backdrop-filter: blur(6px) !important;
+  }
+
+  /* Promote fixed/sticky elements to own layer */
+  .header,
+  .scroll-progress {
+    will-change: transform;
+  }
+
+  /* Disable hover-only transforms on touch (saves composite work) */
+  .project-card:hover { transform: none !important; box-shadow: none !important }
+  .achievement:hover { transform: none !important }
+  .education-item:hover { padding-left: 0 !important }
+  .button:hover { transform: none !important; box-shadow: none !important }
+
+  /* Simplify image transitions */
+  .hero-image img { transition: none !important }
+  .about-photo { transition: none !important }
+
+  /* Lighter reveal animation */
+  .reveal {
+    transition-duration: .4s !important;
+  }
+}
