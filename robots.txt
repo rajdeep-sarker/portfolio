@@ -3,5 +3,5 @@ Disallow:
 
 Allow: /
 
-Sitemap: https://rajdeep.codes/sitemap.xml
+Sitemap: https://rajdeepsarker.com/sitemap.xml
 
